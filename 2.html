@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)http://kosmosnimki.ru/doc/rest/get_rest-ver1-layers-id-info.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Документация к GeoMixer REST API</title>
+
+<script type="text/javascript" src="./2_files/jquery-3.1.1.min.js"></script>
+<link href="./2_files/main.css" rel="stylesheet" media="all">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="./2_files/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="./2_files/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="./2_files/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="./2_files/default.min.css">
+    <script src="./2_files/highlight.min.js"></script>
+</head>
+<body>
+<div class="doc_header"><a href="http://geomixer.ru/"><img src="./2_files/logo_fin_crop_transp_40.png" alt="Geomixer"></a></div>
+<div class="doc_menu" id="doc_menu">
+<ul class="doc_menu_list">
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/index.html">Geomixer REST API</a></li>
+
+   <li class="doc_menu_group" data-group-state="open"><a><div></div>Слои</a></li>
+<li>
+  <ul class="doc_menu_list">
+   <li class="doc_menu_art doc_menu_selected"><a href="http://kosmosnimki.ru/doc/rest/get_rest-ver1-layers-id-info.html">Базовая информация о слое</a></li>
+
+   <li class="doc_menu_art"><a href="http://kosmosnimki.ru/doc/rest/post_rest-ver1-layers-delete.html">Удаление слоя</a></li>
+
+   <li class="doc_menu_art"><a href="http://kosmosnimki.ru/doc/rest/post_rest-ver1-layers-createraster.html">Создание растрового слоя</a></li>
+
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/post_rest-ver1-layers-tilesbybbox.html">Список векторных тайлов по области</a></li>
+
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/post_rest-ver1-layers-queryselect.html">SQL запрос к векторным слоям</a></li>
+
+  </ul>
+</li>
+
+   <li class="doc_menu_group" data-group-state="close"><a><div></div>Объекты векторного слоя</a></li>
+<li>
+  <ul class="doc_menu_list">
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/get_rest-ver1-layers-id-search.html">Поиск и выборка из векторного слоя</a></li>
+
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/post_rest-ver1-layers-id-create.html">Добавление объектов</a></li>
+
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/post_rest-ver1-layers-id-update.html">Изменение объектов</a></li>
+
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/post_rest-ver1-layers-id-delete.html">Удаление объектов</a></li>
+
+  </ul>
+</li>
+
+   <li class="doc_menu_group" data-group-state="close"><a><div></div>Сервисы</a></li>
+<li>
+  <ul class="doc_menu_list">
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/get_rest-ver1-service-wms.html">Сервис WMS</a></li>
+
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/get_rest-ver1-service-wfs.html">Сервис WFS</a></li>
+
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/get_rest-ver1-service-tile.html">Сервис растровых тайлов</a></li>
+
+  </ul>
+</li>
+
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/post_getrasterstat.html">Статистика и гистограмма растрового слоя</a></li>
+
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/cs.html">Системы координат</a></li>
+
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/formats.html">Форматы значений свойств, используемых при создании и изменении объектов векторного слоя</a></li>
+
+</ul>
+</div>
+<div class="doc_content">
+<h1>Базовая информация о слое</h1>
+<pre><span class="method"><span style="color: #000;">Метод: </span>GET</span> http://maps.kosmosnimki.ru/rest/ver1/layers/{Id}/info
+</pre>
+
+<p>Данные для создания должны быть предварительно залиты на сайт.</p>
+<p>Это асинхронный запрос. Процесс создания слоя может занять продолжительное время.</p>
+
+
+<h2>Параметры запроса</h2>
+
+    <h3>apikey <small>(тип: string )</small></h3>
+<div style="padding: 0px 20px">
+<p>Api ключ для авторизации. Вместо ключа могут использоваться куки или другие методы авторизации. <a href="http://kosmosnimki.ru/doc/rest/article.html">Об авторизации</a>.</p>
+
+</div>
+    <h3>Id <small>(тип: string , <b>обязательный параметр</b>)</small></h3>
+<div style="padding: 0px 20px">
+<p>Идентификатор слоя</p>
+
+</div>
+
+<h2>Примеры ответов сервера</h2>
+<ul class="nav nav-tabs" role="tablist">
+<li role="presentation" class="active"><a href="http://kosmosnimki.ru/doc/rest/get_rest-ver1-layers-id-info.html#tab-example-0" aria-controls="tab-example-0" role="tab" data-toggle="tab">Информация о растровом слое</a></li>
+<li role="presentation"><a href="http://kosmosnimki.ru/doc/rest/get_rest-ver1-layers-id-info.html#tab-example-1" aria-controls="tab-example-1" role="tab" data-toggle="tab">Информация о векторном слое</a></li>
+<li role="presentation"><a href="http://kosmosnimki.ru/doc/rest/get_rest-ver1-layers-id-info.html#tab-example-2" aria-controls="tab-example-2" role="tab" data-toggle="tab">Информация о мультивременном векторном слое</a></li>
+</ul>
+
+<div class="tab-content">
+
+
+<div role="tabpanel" class="tab-pane example-response active" id="tab-example-0">
+
+<h3>Запрос</h3>
+<pre>http://maps.kosmosnimki.ru/rest/ver1/layers/A9C7A97D0F2C4261B49B064B2B55A35E/info?
+<p style="padding: 0px 0px 0px 20px; margin: 2px;">&amp;<b>apikey</b>=api_key</p></pre>
+
+<h3>Ответ.</h3>
+    <p>Статус: <b>200</b></p>
+<pre>{<div class="json-btn json-minus"></div><span class="json-inner">
+  <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">properties</span>" <div class="popover-hide-content" data-title="Тип: object"><p>Свойства слоя</p>
+</div></span>: {<div class="json-btn json-minus"></div><span class="json-inner">
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">Access</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Уровень доступа текущего пользователя к данному слою.
+Варианты значений:</p>
+<ul>
+<li><strong>edit</strong> - редактирование слоя и данных</li>
+<li><strong>editrows</strong> - редактирование данных</li>
+<li><strong>view</strong> - просмотр  </li>
+</ul>
+</div></span>: <span class="json-value">"edit"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">name</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Строковый идентификатор слоя. Всегда равен свойству LayerID.</p>
+</div></span>: <span class="json-value">"A9C7A97D0F2C4261B49B064B2B55A35E"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">title</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Назавание слоя</p>
+</div></span>: <span class="json-value">"tilestemp_2"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">description</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Описание слоя</p>
+</div></span>: <span class="json-value">""</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">Copyright</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Копирайт. Показывается в правом нижнем углу карты.</p>
+</div></span>: <span class="json-value">""</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">Owner</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Ник пользователя владельца слоя. По умолчанию тот кто создал слой.</p>
+</div></span>: <span class="json-value">"LayerManager"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">MetaProperties</span>" <div class="popover-hide-content" data-title="Тип: object"><p>Метасвойства ключ-значение.</p>
+</div></span>: {<div class="json-btn json-minus"></div><span class="json-inner">
+    </span>},
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">LayerVersion</span>" <div class="popover-hide-content" data-title="Тип: number"><p>Версия слоя. Каждый раз при изменении слоя версия увеличивается.</p>
+</div></span>: 0,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">LayerID</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Строковый идентификатор слоя. Всегда равен свойству name.</p>
+</div></span>: <span class="json-value">"A9C7A97D0F2C4261B49B064B2B55A35E"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">type</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Тип слоя. Растровый, векторный или мультислой</p>
+</div></span>: <span class="json-value">"Raster"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">date</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Дата создания слоя. Формат YYYY-MM-DD</p>
+</div></span>: <span class="json-value">"2017-03-16"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">Legend</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Легенда.</p>
+</div></span>: <span class="json-value">""</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">MinZoom</span>" <div class="popover-hide-content" data-title="Тип: integer"><p>Минимальный зум на котором есть растровые тайлы у этого слоя. Для каталога растров или мультислоя значение минимальное для всех входящих растров.</p>
+</div></span>: 0,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">MaxZoom</span>" <div class="popover-hide-content" data-title="Тип: integer"><p>Максимальный зум на котором есть растровые тайлы у этого слоя. Для каталога растров или мультислоя значение максимальное для всех входящих растров.</p>
+</div></span>: 4,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">RasterPath</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Виртуальный путь к файлу по которому был создан этот слой.</p>
+</div></span>: <span class="json-value">"workfolder\UserFolder\LayerManager 85ce4ae9\Maps\DefaultMap\кривой растр\tilestemp_2.tiles"</span>
+  </span>},
+  <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">geometry</span>" <div class="popover-hide-content" data-title="Тип: object"><p>Граница слоя. Для векторных слоёв это минимальный ограничивающий прямоугольник. 
+Для растровых слоёв по этой границе обрезается растровое изображение. 
+Геометрия в формате <a href="http://geojson.org/">GeoJson</a>. Проекция EPSG:4326 (градусы, WGS 84)</p>
+</div></span>: {<div class="json-btn json-minus"></div><span class="json-inner">
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">type</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Тип геометрии или набор записей</p>
+</div></span>: <span class="json-value">"Polygon"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">coordinates</span>" <div class="popover-hide-content" data-title="Тип: array"><p>Массив с координатами</p>
+</div></span>: [<div class="json-btn json-minus"></div><span class="json-inner">
+      [<div class="json-btn json-minus"></div><span class="json-inner">
+        [<div class="json-btn json-minus"></div><span class="json-inner">
+          -179.9999999,
+          85.0511288
+        </span>],
+        [<div class="json-btn json-minus"></div><span class="json-inner">
+          -157.5,
+          85.0511288
+        </span>],
+        [<div class="json-btn json-minus"></div><span class="json-inner">
+          -112.5,
+          85.0511288
+        </span>],
+        [<div class="json-btn json-minus"></div><span class="json-inner">
+          180,
+          85.0511288
+        </span>],
+        [<div class="json-btn json-minus"></div><span class="json-inner">
+          180,
+          -74.0195433
+        </span>],
+        [<div class="json-btn json-minus"></div><span class="json-inner">
+          -112.5,
+          -74.0195433
+        </span>],
+        [<div class="json-btn json-minus"></div><span class="json-inner">
+          -157.5,
+          -74.0195433
+        </span>],
+        [<div class="json-btn json-minus"></div><span class="json-inner">
+          -179.9999999,
+          -74.0195433
+        </span>],
+        [<div class="json-btn json-minus"></div><span class="json-inner">
+          -180,
+          -74.0195433
+        </span>],
+        [<div class="json-btn json-minus"></div><span class="json-inner">
+          -180,
+          85.0511288
+        </span>],
+        [<div class="json-btn json-minus"></div><span class="json-inner">
+          -179.9999999,
+          85.0511288
+        </span>]
+      </span>]
+    </span>]
+  </span>}
+</span>}
+</pre>
+</div>
+
+<div role="tabpanel" class="tab-pane example-response " id="tab-example-1">
+
+<h3>Запрос</h3>
+<pre>http://maps.kosmosnimki.ru/rest/ver1/layers/477A0437134246D8B64288105C96511E/info?
+<p style="padding: 0px 0px 0px 20px; margin: 2px;">&amp;<b>apikey</b>=api_key</p></pre>
+
+<h3>Ответ.</h3>
+    <p>Статус: <b>200</b></p>
+<pre>{<div class="json-btn json-minus"></div><span class="json-inner">
+  <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">properties</span>" <div class="popover-hide-content" data-title="Тип: object"><p>Свойства слоя</p>
+</div></span>: {<div class="json-btn json-minus"></div><span class="json-inner">
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">Access</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Уровень доступа текущего пользователя к данному слою.
+Варианты значений:</p>
+<ul>
+<li><strong>edit</strong> - редактирование слоя и данных</li>
+<li><strong>editrows</strong> - редактирование данных</li>
+<li><strong>view</strong> - просмотр  </li>
+</ul>
+</div></span>: <span class="json-value">"edit"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">name</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Строковый идентификатор слоя. Всегда равен свойству LayerID.</p>
+</div></span>: <span class="json-value">"477A0437134246D8B64288105C96511E"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">title</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Назавание слоя</p>
+</div></span>: <span class="json-value">"576"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">description</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Описание слоя</p>
+</div></span>: <span class="json-value">""</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">Copyright</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Копирайт. Показывается в правом нижнем углу карты.</p>
+</div></span>: <span class="json-value">""</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">Owner</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Ник пользователя владельца слоя. По умолчанию тот кто создал слой.</p>
+</div></span>: <span class="json-value">"LayerManager"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">MetaProperties</span>" <div class="popover-hide-content" data-title="Тип: object"><p>Метасвойства ключ-значение.</p>
+</div></span>: {<div class="json-btn json-minus"></div><span class="json-inner">
+    </span>},
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">LayerVersion</span>" <div class="popover-hide-content" data-title="Тип: number"><p>Версия слоя. Каждый раз при изменении слоя версия увеличивается.</p>
+</div></span>: 2,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">LayerID</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Строковый идентификатор слоя. Всегда равен свойству name.</p>
+</div></span>: <span class="json-value">"477A0437134246D8B64288105C96511E"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">type</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Тип слоя. Растровый, векторный или мультислой</p>
+</div></span>: <span class="json-value">"Vector"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">date</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Дата создания слоя. Формат YYYY-MM-DD</p>
+</div></span>: <span class="json-value">"2016-12-12"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">Legend</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Легенда.</p>
+</div></span>: null,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">EncodeSource</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Кодировка источника данных</p>
+</div></span>: null,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">VtMinZoom</span>" <div class="popover-hide-content" data-title="Тип: integer"><p>Минимальный зум на котором есть векторные тайлы.</p>
+</div></span>: 6,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">VtMaxZoom</span>" <div class="popover-hide-content" data-title="Тип: integer"><p>Максимальный зум на котором есть векторные тайлы.</p>
+</div></span>: 6,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">MinZoom</span>" <div class="popover-hide-content" data-title="Тип: integer"><p>Минимальный зум на котором есть растровые тайлы у этого слоя. Для каталога растров или мультислоя значение минимальное для всех входящих растров.</p>
+</div></span>: 6,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">MaxZoom</span>" <div class="popover-hide-content" data-title="Тип: integer"><p>Максимальный зум на котором есть растровые тайлы у этого слоя. Для каталога растров или мультислоя значение максимальное для всех входящих растров.</p>
+</div></span>: 6,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">identityField</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Название колонки первичного ключа (идентификатор) в таблице векторного слоя.</p>
+</div></span>: <span class="json-value">"gmx_id"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">NameObject</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Название колонки которое используется в интерфейсе как имя объекта векторного слоя.</p>
+</div></span>: <span class="json-value">""</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">tilesOrder</span>" <div class="popover-hide-content" data-title="Тип: array"><p>Порядок записи координат тайлов для параметра tilesGen.
+Возможные значения:</p>
+<ul>
+<li><strong>X</strong> Координата X тайла</li>
+<li><strong>Y</strong> Координата Y тайла</li>
+<li><strong>Z</strong> Координата Z тайла</li>
+<li><strong>V</strong> Номер версии тайла</li>
+<li><strong>Level</strong> Для мультивременных слоёв размерность разбивки по дням</li>
+<li><strong>Span</strong> Временной период разбивки по дням    </li>
+</ul>
+</div></span>: [<div class="json-btn json-minus"></div><span class="json-inner">
+      <span class="json-value">"X"</span>,
+      <span class="json-value">"Y"</span>,
+      <span class="json-value">"Z"</span>,
+      <span class="json-value">"V"</span>
+    </span>],
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">tilesSimple</span>" <div class="popover-hide-content" data-title="Тип: array"><p>Список координат симплифицированных тайлов. Порядок компонентов указывается в свойстве tilesOrder.</p>
+</div></span>: [<div class="json-btn json-minus"></div><span class="json-inner">
+      1,
+      0,
+      2,
+      10,
+      5,
+      2,
+      4,
+      10,
+      23,
+      8,
+      6,
+      10,
+      6,
+      2,
+      4,
+      10
+    </span>],
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">tiles</span>" <div class="popover-hide-content" data-title="Тип: array"><p>Перечень векторных тайлов. Формат [x1,y1,z1,x2,y2,z2, ...]</p>
+</div></span>: [<div class="json-btn json-minus"></div><span class="json-inner">
+      46,
+      16,
+      7,
+      47,
+      16,
+      7,
+      46,
+      17,
+      7,
+      47,
+      17,
+      7,
+      23,
+      9,
+      6,
+      24,
+      8,
+      6,
+      24,
+      9,
+      6
+    </span>],
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">tilesVers</span>" <div class="popover-hide-content" data-title="Тип: array"><p>Версии векторных тайлов. Формат [v1,v2,v3,...]. Для каждого значения в этом массиве соответствует {x,y,z} в свойстве "tiles". Порядок тайлов одинков.</p>
+</div></span>: [<div class="json-btn json-minus"></div><span class="json-inner">
+      7,
+      7,
+      7,
+      7,
+      7,
+      7,
+      7
+    </span>],
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">GeometryType</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Основной тип геометрий в векторном слое. Под этот тип настраиваются стили в интерфейсе. Сервер не запрещает иметь в слое геометрии других типов, но это не рекомендуется.</p>
+</div></span>: <span class="json-value">"Polygon"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">attributes</span>" <div class="popover-hide-content" data-title="Тип: array"><p>Перечень названий колонок в таблице векторного слоя.</p>
+</div></span>: [<div class="json-btn json-minus"></div><span class="json-inner">
+      <span class="json-value">"Name"</span>,
+      <span class="json-value">"OBJECTID"</span>,
+      <span class="json-value">"government"</span>,
+      <span class="json-value">"COUNTRY"</span>,
+      <span class="json-value">"TYPE_NL"</span>,
+      <span class="json-value">"NAME_E"</span>,
+      <span class="json-value">"Shape_Length"</span>,
+      <span class="json-value">"S"</span>,
+      <span class="json-value">"YEAR_"</span>,
+      <span class="json-value">"Location"</span>,
+      <span class="json-value">"PROV_NL"</span>,
+      <span class="json-value">"PROVINCE_E"</span>,
+      <span class="json-value">"FID_Pa_eco"</span>,
+      <span class="json-value">"NAME_R"</span>,
+      <span class="json-value">"Updated"</span>,
+      <span class="json-value">"Shape_Area"</span>,
+      <span class="json-value">"TYPE_E"</span>,
+      <span class="json-value">"SubGovernm"</span>,
+      <span class="json-value">"KN"</span>,
+      <span class="json-value">"gml_id"</span>,
+      <span class="json-value">"Doc"</span>,
+      <span class="json-value">"ShortName"</span>,
+      <span class="json-value">"AREA_DOC"</span>,
+      <span class="json-value">"Id"</span>,
+      <span class="json-value">"kkk"</span>,
+      <span class="json-value">"dd"</span>
+    </span>],
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">attrTypes</span>" <div class="popover-hide-content" data-title="Тип: array"><p>Перечень названий типов колонок в таблице векторного слоя. Порядок и количество соответсвует перечню attributes.
+Перечень типов:</p>
+<ul>
+<li>integer (целое число)</li>
+<li>float (число с плавающей точкой)</li>
+<li>string (строка)</li>
+<li>geometry (геометрия)</li>
+<li>date (дата)</li>
+<li>datetime (дата и время)</li>
+<li>time (время)</li>
+<li>boolean (булевое)</li>
+</ul>
+</div></span>: [<div class="json-btn json-minus"></div><span class="json-inner">
+      <span class="json-value">"string"</span>,
+      <span class="json-value">"integer"</span>,
+      <span class="json-value">"string"</span>,
+      <span class="json-value">"string"</span>,
+      <span class="json-value">"string"</span>,
+      <span class="json-value">"string"</span>,
+      <span class="json-value">"float"</span>,
+      <span class="json-value">"float"</span>,
+      <span class="json-value">"integer"</span>,
+      <span class="json-value">"string"</span>,
+      <span class="json-value">"string"</span>,
+      <span class="json-value">"string"</span>,
+      <span class="json-value">"integer"</span>,
+      <span class="json-value">"string"</span>,
+      <span class="json-value">"string"</span>,
+      <span class="json-value">"float"</span>,
+      <span class="json-value">"string"</span>,
+      <span class="json-value">"string"</span>,
+      <span class="json-value">"string"</span>,
+      <span class="json-value">"string"</span>,
+      <span class="json-value">"string"</span>,
+      <span class="json-value">"string"</span>,
+      <span class="json-value">"float"</span>,
+      <span class="json-value">"float"</span>,
+      <span class="json-value">"string"</span>,
+      <span class="json-value">"datetime"</span>
+    </span>]
+  </span>},
+  <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">geometry</span>" <div class="popover-hide-content" data-title="Тип: object"><p>Граница слоя. Для векторных слоёв это минимальный ограничивающий прямоугольник. 
+Для растровых слоёв по этой границе обрезается растровое изображение. 
+Геометрия в формате <a href="http://geojson.org/">GeoJson</a>. Проекция EPSG:4326 (градусы, WGS 84)</p>
+</div></span>: {<div class="json-btn json-minus"></div><span class="json-inner">
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">type</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Тип геометрии или набор записей</p>
+</div></span>: <span class="json-value">"Polygon"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">coordinates</span>" <div class="popover-hide-content" data-title="Тип: array"><p>Массив с координатами</p>
+</div></span>: [<div class="json-btn json-minus"></div><span class="json-inner">
+      [<div class="json-btn json-minus"></div><span class="json-inner">
+        [<div class="json-btn json-minus"></div><span class="json-inner">
+          130.3930908,
+          42.2933656
+        </span>],
+        [<div class="json-btn json-minus"></div><span class="json-inner">
+          130.3930908,
+          47.4086874
+        </span>],
+        [<div class="json-btn json-minus"></div><span class="json-inner">
+          138.7048797,
+          47.4086874
+        </span>],
+        [<div class="json-btn json-minus"></div><span class="json-inner">
+          138.7048797,
+          42.2933656
+        </span>],
+        [<div class="json-btn json-minus"></div><span class="json-inner">
+          130.3930908,
+          42.2933656
+        </span>]
+      </span>]
+    </span>]
+  </span>}
+</span>}
+</pre>
+</div>
+
+<div role="tabpanel" class="tab-pane example-response " id="tab-example-2">
+
+<h3>Запрос</h3>
+<pre>http://maps.kosmosnimki.ru/rest/ver1/layers/2A276A808D17490AAC06E96FF7F345FD/info?
+<p style="padding: 0px 0px 0px 20px; margin: 2px;">&amp;<b>apikey</b>=api_key</p></pre>
+
+<h3>Ответ.</h3>
+    <p>Статус: <b>200</b></p>
+<pre>{<div class="json-btn json-minus"></div><span class="json-inner">
+  <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">properties</span>" <div class="popover-hide-content" data-title="Тип: object"><p>Свойства слоя</p>
+</div></span>: {<div class="json-btn json-minus"></div><span class="json-inner">
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">Access</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Уровень доступа текущего пользователя к данному слою.
+Варианты значений:</p>
+<ul>
+<li><strong>edit</strong> - редактирование слоя и данных</li>
+<li><strong>editrows</strong> - редактирование данных</li>
+<li><strong>view</strong> - просмотр  </li>
+</ul>
+</div></span>: <span class="json-value">"edit"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">name</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Строковый идентификатор слоя. Всегда равен свойству LayerID.</p>
+</div></span>: <span class="json-value">"2A276A808D17490AAC06E96FF7F345FD"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">title</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Назавание слоя</p>
+</div></span>: <span class="json-value">"Table_xy_date"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">description</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Описание слоя</p>
+</div></span>: <span class="json-value">""</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">Copyright</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Копирайт. Показывается в правом нижнем углу карты.</p>
+</div></span>: <span class="json-value">""</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">Owner</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Ник пользователя владельца слоя. По умолчанию тот кто создал слой.</p>
+</div></span>: <span class="json-value">"LayerManager"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">MetaProperties</span>" <div class="popover-hide-content" data-title="Тип: object"><p>Метасвойства ключ-значение.</p>
+</div></span>: {<div class="json-btn json-minus"></div><span class="json-inner">
+    </span>},
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">LayerVersion</span>" <div class="popover-hide-content" data-title="Тип: number"><p>Версия слоя. Каждый раз при изменении слоя версия увеличивается.</p>
+</div></span>: 3,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">LayerID</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Строковый идентификатор слоя. Всегда равен свойству name.</p>
+</div></span>: <span class="json-value">"2A276A808D17490AAC06E96FF7F345FD"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">type</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Тип слоя. Растровый, векторный или мультислой</p>
+</div></span>: <span class="json-value">"Vector"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">date</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Дата создания слоя. Формат YYYY-MM-DD</p>
+</div></span>: <span class="json-value">"2017-03-04"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">Legend</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Легенда.</p>
+</div></span>: null,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">EncodeSource</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Кодировка источника данных</p>
+</div></span>: null,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">VtMinZoom</span>" <div class="popover-hide-content" data-title="Тип: integer"><p>Минимальный зум на котором есть векторные тайлы.</p>
+</div></span>: 1,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">VtMaxZoom</span>" <div class="popover-hide-content" data-title="Тип: integer"><p>Максимальный зум на котором есть векторные тайлы.</p>
+</div></span>: 1,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">MinZoom</span>" <div class="popover-hide-content" data-title="Тип: integer"><p>Минимальный зум на котором есть растровые тайлы у этого слоя. Для каталога растров или мультислоя значение минимальное для всех входящих растров.</p>
+</div></span>: 1,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">MaxZoom</span>" <div class="popover-hide-content" data-title="Тип: integer"><p>Максимальный зум на котором есть растровые тайлы у этого слоя. Для каталога растров или мультислоя значение максимальное для всех входящих растров.</p>
+</div></span>: 1,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">identityField</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Название колонки первичного ключа (идентификатор) в таблице векторного слоя.</p>
+</div></span>: <span class="json-value">"id"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">NameObject</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Название колонки которое используется в интерфейсе как имя объекта векторного слоя.</p>
+</div></span>: <span class="json-value">""</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">tiles</span>" <div class="popover-hide-content" data-title="Тип: array"><p>Перечень векторных тайлов. Формат [x1,y1,z1,x2,y2,z2, ...]</p>
+</div></span>: [<div class="json-btn json-minus"></div><span class="json-inner">
+    </span>],
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">tilesVers</span>" <div class="popover-hide-content" data-title="Тип: array"><p>Версии векторных тайлов. Формат [v1,v2,v3,...]. Для каждого значения в этом массиве соответствует {x,y,z} в свойстве "tiles". Порядок тайлов одинков.</p>
+</div></span>: [<div class="json-btn json-minus"></div><span class="json-inner">
+    </span>],
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">TemporalTiles</span>" <div class="popover-hide-content" data-title="Тип: array"><p>Номера временных тайлов. Формат [[{размер периода},{смещение даты},x,y,z], [{размер периода},{смещение даты},x,y,z], ...]
+Смещение даты измеряется в количестве дней прошедших с даты, указанной в свойстве "ZeroDate"</p>
+</div></span>: [<div class="json-btn json-minus"></div><span class="json-inner">
+      [<div class="json-btn json-minus"></div><span class="json-inner">
+        1,
+        13576,
+        0,
+        0,
+        1
+      </span>],
+      [<div class="json-btn json-minus"></div><span class="json-inner">
+        1,
+        13575,
+        0,
+        0,
+        1
+      </span>],
+      [<div class="json-btn json-minus"></div><span class="json-inner">
+        1,
+        13574,
+        0,
+        0,
+        1
+      </span>],
+      [<div class="json-btn json-minus"></div><span class="json-inner">
+        4,
+        3394,
+        0,
+        0,
+        1
+      </span>],
+      [<div class="json-btn json-minus"></div><span class="json-inner">
+        4,
+        3393,
+        0,
+        0,
+        1
+      </span>],
+      [<div class="json-btn json-minus"></div><span class="json-inner">
+        16,
+        848,
+        0,
+        0,
+        1
+      </span>]
+    </span>],
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">TemporalVers</span>" <div class="popover-hide-content" data-title="Тип: array"><p>Версии временных векторных тайлов. Формат [v1,v2,v3,...]. Для каждого значения в этом массиве соответствует одно значение в свойстве "TemporalTiles". Порядок тайлов одинков.</p>
+</div></span>: [<div class="json-btn json-minus"></div><span class="json-inner">
+      9,
+      9,
+      9,
+      9,
+      9,
+      9
+    </span>],
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">Temporal</span>" <div class="popover-hide-content" data-title="Тип: boolean"><p>Значение true - показывает что это мультивременной слой. Если такого свойства нет или значение равно false, значит это не мультивременной слой.</p>
+</div></span>: true,
+    <span class="json-key">"maxShownPeriod"</span>: 0,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">TemporalPeriods</span>" <div class="popover-hide-content" data-title="Тип: array"><p>Перечень размеров периодов на которые нарезаются тайлы этого мультивременного слоя. Размер указывается целым числом в днях.</p>
+</div></span>: [<div class="json-btn json-minus"></div><span class="json-inner">
+      1,
+      4,
+      16
+    </span>],
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">ZeroDate</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Дата от которой происходит отсчёт временных периодов.</p>
+</div></span>: <span class="json-value">"1980-01-01"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">TemporalColumnName</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Название колонки типа date или datetime в слое по которой происходит разбивка слоя на временные периоды.</p>
+</div></span>: <span class="json-value">"dt"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">DateBegin</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Минимальная дата в слое для мультивременной колонке ("TemporalColumnName")</p>
+</div></span>: <span class="json-value">"2017-03-01"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">DateEnd</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Максимальная дата в слое для мультивременной колонке ("TemporalColumnName")</p>
+</div></span>: <span class="json-value">"2017-03-03"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">DateBeginUTC</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Минимальная дата+время в слое для мультивременной колонке ("TemporalColumnName")</p>
+</div></span>: <span class="json-value">"2017-03-01 00:00:00"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">DateEndUTC</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Максимальная дата+время в слое для мультивременной колонке ("TemporalColumnName")</p>
+</div></span>: <span class="json-value">"2017-03-03 00:00:00"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">GeometryType</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Основной тип геометрий в векторном слое. Под этот тип настраиваются стили в интерфейсе. Сервер не запрещает иметь в слое геометрии других типов, но это не рекомендуется.</p>
+</div></span>: <span class="json-value">"Point"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">attributes</span>" <div class="popover-hide-content" data-title="Тип: array"><p>Перечень названий колонок в таблице векторного слоя.</p>
+</div></span>: [<div class="json-btn json-minus"></div><span class="json-inner">
+      <span class="json-value">"x"</span>,
+      <span class="json-value">"y"</span>,
+      <span class="json-value">"dt"</span>,
+      <span class="json-value">"name"</span>
+    </span>],
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">attrTypes</span>" <div class="popover-hide-content" data-title="Тип: array"><p>Перечень названий типов колонок в таблице векторного слоя. Порядок и количество соответсвует перечню attributes.
+Перечень типов:</p>
+<ul>
+<li>integer (целое число)</li>
+<li>float (число с плавающей точкой)</li>
+<li>string (строка)</li>
+<li>geometry (геометрия)</li>
+<li>date (дата)</li>
+<li>datetime (дата и время)</li>
+<li>time (время)</li>
+<li>boolean (булевое)</li>
+</ul>
+</div></span>: [<div class="json-btn json-minus"></div><span class="json-inner">
+      <span class="json-value">"float"</span>,
+      <span class="json-value">"float"</span>,
+      <span class="json-value">"datetime"</span>,
+      <span class="json-value">"string"</span>
+    </span>]
+  </span>},
+  <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">geometry</span>" <div class="popover-hide-content" data-title="Тип: object"><p>Граница слоя. Для векторных слоёв это минимальный ограничивающий прямоугольник. 
+Для растровых слоёв по этой границе обрезается растровое изображение. 
+Геометрия в формате <a href="http://geojson.org/">GeoJson</a>. Проекция EPSG:4326 (градусы, WGS 84)</p>
+</div></span>: {<div class="json-btn json-minus"></div><span class="json-inner">
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">type</span>" <div class="popover-hide-content" data-title="Тип: string"><p>Тип геометрии или набор записей</p>
+</div></span>: <span class="json-value">"Polygon"</span>,
+    <span class="json-key">"<span class="json-key-hint" data-original-title="" title="">coordinates</span>" <div class="popover-hide-content" data-title="Тип: array"><p>Массив с координатами</p>
+</div></span>: [<div class="json-btn json-minus"></div><span class="json-inner">
+      [<div class="json-btn json-minus"></div><span class="json-inner">
+        [<div class="json-btn json-minus"></div><span class="json-inner">
+          10.0000001,
+          3.9999998
+        </span>],
+        [<div class="json-btn json-minus"></div><span class="json-inner">
+          10.0000001,
+          54.9999998
+        </span>],
+        [<div class="json-btn json-minus"></div><span class="json-inner">
+          63.0000003,
+          54.9999998
+        </span>],
+        [<div class="json-btn json-minus"></div><span class="json-inner">
+          63.0000003,
+          3.9999998
+        </span>],
+        [<div class="json-btn json-minus"></div><span class="json-inner">
+          10.0000001,
+          3.9999998
+        </span>]
+      </span>]
+    </span>]
+  </span>}
+</span>}
+</pre>
+</div>
+
+</div>
+</div>
+
+<script type="text/javascript">
+    $('.doc_menu_group').on('click', function (e) {
+        var t = $(this);
+        var next = t.next();
+        if (t.attr("data-group-state") == "close") {
+            t.attr("data-group-state", "open");
+        }
+        else {
+            t.attr("data-group-state", "close");
+        }
+    });
+    $('.doc_menu_group').add(".doc_menu_art").on('mouseenter', function (e) {
+        var t = $(this);
+        if (!t.hasClass("doc_menu_selected")) {
+            t.addClass("doc_menu_over");
+        }
+    });
+    $('.doc_menu_group').add(".doc_menu_art").on('mouseleave', function (e) {
+        var t = $(this);
+        if (!t.hasClass("doc_menu_selected")) {
+            t.removeClass("doc_menu_over");
+        }
+    });
+    $('.json-btn').on('click', function (e){
+        var t = $(this);
+        t.toggleClass("json-minus json-plus");
+    });
+    //показываем popover
+    $('.json-key-hint').each(function (indx, element){
+        var t = $(element);
+        var d = t.next();
+        if (d != null && d.hasClass('popover-hide-content'))
+        {
+            var options = new Object();
+            options.content = d.html();
+            options.title = d.attr("data-title");
+            options.html = true;
+            options.placement = 'top';
+            options.trigger = 'hover';
+            t.popover(options);
+        }
+    });
+    /*
+    $('.json-key-hint').on('click', function (e){
+        var t = $(this);
+        var d = t.next();
+        if (d != null && d.hasClass('popover-hide-content'))
+        {
+            var options = new Object();
+            options.content = d.html();
+            options.title = d.attr("data-title");
+            options.html = true;
+            options.placement = 'top';
+            options.trigger = 'click';
+            t.popover(options);
+            t.popover('show');
+        }
+    });*/
+    //закрываем все popover при клике не в popover
+/*
+    $('body').on('click', function (e) {
+        $('.json-key-hint').each(function () {
+            // hide any open popovers when the anywhere else in the body is clicked
+            if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                $(this).popover('hide');
+            }
+        });
+    });*/
+    /*
+    $('html').on('mousedown', function(e) {
+        if(!$(e.target).closest('.popover').length) {
+            $('.popover').each(function(){
+                $(this.previousSibling).popover('hide');
+            });
+        }
+    });*/
+    //$('#example').popover(options)
+//$(document).ready(function(){
+    //$('[data-toggle="tooltip"]').tooltip(); 
+//});    
+</script>
+
+</body></html>

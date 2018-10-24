@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<!-- saved from url=(0031)http://kosmosnimki.ru/doc/rest/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Документация к GeoMixer REST API</title>
+
+<script type="text/javascript" src="./Документация к GeoMixer REST API_files/jquery-3.1.1.min.js"></script>
+<link href="./Документация к GeoMixer REST API_files/main.css" rel="stylesheet" media="all">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="./Документация к GeoMixer REST API_files/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="./Документация к GeoMixer REST API_files/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="./Документация к GeoMixer REST API_files/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="./Документация к GeoMixer REST API_files/default.min.css">
+    <script src="./Документация к GeoMixer REST API_files/highlight.min.js"></script>
+</head>
+<body>
+<div class="doc_header"><a href="http://geomixer.ru/"><img src="./Документация к GeoMixer REST API_files/logo_fin_crop_transp_40.png" alt="Geomixer"></a></div>
+<div class="doc_menu" id="doc_menu">
+<ul class="doc_menu_list">
+   <li class="doc_menu_art doc_menu_selected"><a href="http://kosmosnimki.ru/doc/rest/index.html">Geomixer REST API</a></li>
+
+   <li class="doc_menu_group" data-group-state="close"><a><div></div>Слои</a></li>
+<li>
+  <ul class="doc_menu_list">
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/get_rest-ver1-layers-id-info.html">Базовая информация о слое</a></li>
+
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/post_rest-ver1-layers-delete.html">Удаление слоя</a></li>
+
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/post_rest-ver1-layers-createraster.html">Создание растрового слоя</a></li>
+
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/post_rest-ver1-layers-tilesbybbox.html">Список векторных тайлов по области</a></li>
+
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/post_rest-ver1-layers-queryselect.html">SQL запрос к векторным слоям</a></li>
+
+  </ul>
+</li>
+
+   <li class="doc_menu_group" data-group-state="close"><a><div></div>Объекты векторного слоя</a></li>
+<li>
+  <ul class="doc_menu_list">
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/get_rest-ver1-layers-id-search.html">Поиск и выборка из векторного слоя</a></li>
+
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/post_rest-ver1-layers-id-create.html">Добавление объектов</a></li>
+
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/post_rest-ver1-layers-id-update.html">Изменение объектов</a></li>
+
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/post_rest-ver1-layers-id-delete.html">Удаление объектов</a></li>
+
+  </ul>
+</li>
+
+   <li class="doc_menu_group" data-group-state="close"><a><div></div>Сервисы</a></li>
+<li>
+  <ul class="doc_menu_list">
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/get_rest-ver1-service-wms.html">Сервис WMS</a></li>
+
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/get_rest-ver1-service-wfs.html">Сервис WFS</a></li>
+
+   <li class="doc_menu_art "><a href="http://kosmosnimki.ru/doc/rest/get_rest-ver1-service-tile.html">Сервис растровых тайлов</a></li>
+
+  </ul>
+</li>
+
+   <li class="doc_menu_art"><a href="http://kosmosnimki.ru/doc/rest/post_getrasterstat.html">Статистика и гистограмма растрового слоя</a></li>
+
+   <li class="doc_menu_art"><a href="http://kosmosnimki.ru/doc/rest/cs.html">Системы координат</a></li>
+
+   <li class="doc_menu_art"><a href="http://kosmosnimki.ru/doc/rest/formats.html">Форматы значений свойств, используемых при создании и изменении объектов векторного слоя</a></li>
+
+</ul>
+</div>
+<div class="doc_content">
+<h1>Geomixer REST API</h1>
+<p>REST API GeoMixer - интерфейс для взаимодействия пользовательского приложения  и сервера GeoMixer с помощью протокола HTTP(S).</p>
+<p>Интерфейс позволяет приложению выполнять различные манипуляции со своими данными - слоями, объектами, файлами, картами.</p>
+<h2 id="api-">API-ключ</h2>
+<p>Для выполнения операций и контроля доступа все запросы должны быть аутентичны. Для этого пользователь должен добавить в качестве параметра запроса свой прямой API-ключ.
+Для получения ключа необходимо войти под зарегистрированной учетной записью и выбрать элемент меню <strong>Личный кабинет</strong>:  </p>
+<p><img src="./Документация к GeoMixer REST API_files/key_1.png" alt="Личный кабинет"></p>
+<p>Далее необходимо выбрать пункты <strong>Разработчикам</strong> и затем <strong>API-ключ прямого доступа (для приложений)</strong>:
+<img src="./Документация к GeoMixer REST API_files/key_2.png" alt="выбрать пункты Разработчикам и затем API-ключ прямого доступа (для приложений)"></p>
+<p>После нажатия на кнопку <strong>Получить новый ключ</strong> необходимо ознакомиться и согласиться с условиями использования. 
+После этого, необходимо еще раз открыть пункты меню <strong>Разработчикам</strong> и <strong>Список API-ключей</strong>, в списке должен появиться созданный ключ прямого доступа:  </p>
+<p>  <img src="./Документация к GeoMixer REST API_files/key_4.png" alt="Список API-ключей"></p>
+<h2 id="-api">Вызовы API</h2>
+<p>Вызовы осуществляются посредством HTTP/HTTPS-запросов.
+В качестве методов могут быть использованы POST и GET – различий между ними на данный момент нет. 
+Методы PUT и DELETE не поддерживаются. 
+Параметры могут быть переданы как в URL, так и в теле POST-запроса.
+Результат выполнения операции содержится в коде состояния HTTP. Перечень возможных кодов приведен в таблице:</p>
+<table>
+<thead>
+<tr>
+<th>Код результата</th>
+<th>Когда используется</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200 OK</td>
+<td>Возвращается в случае успешно выполненной операции, тело, как правило, содержит дополнительную информацию.</td>
+</tr>
+<tr>
+<td>400 Bad Request</td>
+<td>Возвращается в случае, если в запросе содержится ошибка, например, неправильно задан один из параметров.</td>
+</tr>
+<tr>
+<td>403 Forbidden</td>
+<td>Возвращается в случае не авторизованного доступа (когда для доступа необходим API-ключ, но он не указан либо указан неправильный ключ).</td>
+</tr>
+<tr>
+<td>404 Not Found</td>
+<td>Возвращается в случае, если не найден какой-либо объект, участвующий в запросе, например, слой.</td>
+</tr>
+<tr>
+<td>500 Internal Server Error</td>
+<td>Возвращается в случае ошибки, произошедшей при работе сервера.</td>
+</tr>
+<tr>
+<td>501 Not Implemented</td>
+<td>Возвращается в случае, если запрошенная операция не реализован</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+<script type="text/javascript">
+    $('.doc_menu_group').on('click', function (e) {
+        var t = $(this);
+        var next = t.next();
+        if (t.attr("data-group-state") == "close") {
+            t.attr("data-group-state", "open");
+        }
+        else {
+            t.attr("data-group-state", "close");
+        }
+    });
+    $('.doc_menu_group').add(".doc_menu_art").on('mouseenter', function (e) {
+        var t = $(this);
+        if (!t.hasClass("doc_menu_selected")) {
+            t.addClass("doc_menu_over");
+        }
+    });
+    $('.doc_menu_group').add(".doc_menu_art").on('mouseleave', function (e) {
+        var t = $(this);
+        if (!t.hasClass("doc_menu_selected")) {
+            t.removeClass("doc_menu_over");
+        }
+    });
+    $('.json-btn').on('click', function (e){
+        var t = $(this);
+        t.toggleClass("json-minus json-plus");
+    });
+    //показываем popover
+    $('.json-key-hint').each(function (indx, element){
+        var t = $(element);
+        var d = t.next();
+        if (d != null && d.hasClass('popover-hide-content'))
+        {
+            var options = new Object();
+            options.content = d.html();
+            options.title = d.attr("data-title");
+            options.html = true;
+            options.placement = 'top';
+            options.trigger = 'hover';
+            t.popover(options);
+        }
+    });
+    /*
+    $('.json-key-hint').on('click', function (e){
+        var t = $(this);
+        var d = t.next();
+        if (d != null && d.hasClass('popover-hide-content'))
+        {
+            var options = new Object();
+            options.content = d.html();
+            options.title = d.attr("data-title");
+            options.html = true;
+            options.placement = 'top';
+            options.trigger = 'click';
+            t.popover(options);
+            t.popover('show');
+        }
+    });*/
+    //закрываем все popover при клике не в popover
+/*
+    $('body').on('click', function (e) {
+        $('.json-key-hint').each(function () {
+            // hide any open popovers when the anywhere else in the body is clicked
+            if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                $(this).popover('hide');
+            }
+        });
+    });*/
+    /*
+    $('html').on('mousedown', function(e) {
+        if(!$(e.target).closest('.popover').length) {
+            $('.popover').each(function(){
+                $(this.previousSibling).popover('hide');
+            });
+        }
+    });*/
+    //$('#example').popover(options)
+//$(document).ready(function(){
+    //$('[data-toggle="tooltip"]').tooltip(); 
+//});    
+</script>
+
+</body></html>
